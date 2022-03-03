@@ -1,11 +1,11 @@
-const productServices = require("./products.service");
+const productsService = require("./products.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-
+const { addListener } = require("nodemon");
 
 // * validation
 
 async function productExists(req, res, next) {
-  const product = await productServices.read(req.params.productId);
+  const product = await productsService.read(req.params.productId);
 
   if (product) {
     res.locals.product = product;
@@ -15,18 +15,36 @@ async function productExists(req, res, next) {
 }
 
 // * read / GET by id
-function read(req, res, next) {
+function read(req, res) {
   const { product: data } = res.locals;
   res.json({ data });
 }
 
 // * list / GET
-async function list(req, res, next) {
-  const data = await productServices.list();
+async function list(req, res) {
+  const data = await productsService.list();
   res.json({ data });
+}
+
+// * count out of stock products
+async function listOutOfStockCount(req, res) {
+  res.json({ data: await productsService.listOutOfStockCount() });
+}
+
+// * price summary by supplier
+async function listPriceSummary(req, res) {
+  res.json({ data: await productsService.listPriceSummary() });
+}
+
+// * total weight by product
+async function listTotalWeightByProduct(req, res) {
+  res.json({ data: await productsService.listTotalWeightByProduct() });
 }
 
 module.exports = {
   read: [asyncErrorBoundary(productExists), read],
   list: [asyncErrorBoundary(list)],
+  listOutOfStockCount: asyncErrorBoundary(listOutOfStockCount),
+  listPriceSummary: asyncErrorBoundary(listPriceSummary),
+  listTotalWeightByProduct: asyncErrorBoundary(listTotalWeightByProduct),
 };
