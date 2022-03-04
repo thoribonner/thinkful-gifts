@@ -30,11 +30,13 @@ This starter code closely follows the best practices and patterns established in
 ## Installation
 
 1. Fork and clone this repository.
-1. Run `cp .env.sample .env`.
-1. Update your `.env` file with a connection URL to your ElephantSQL database instance.
-1. Run `npm install` to install project dependencies.
-1. Run `npm run start:dev` to start your server in development mode.
-1. In your browser or Postman, navigate to `localhost:5000/products`. If your server is running properly, you should get back the following json response:
+2. Run `cp .env.sample .env`.
+3. Update your `.env` file with a connection URL to your ElephantSQL database instance.
+4. Run `npm install` to install project dependencies.
+5. Run `npm run db:latest` to create necessary db tables.
+5. Run `npm run db:seed` to seed fake data.
+5. Run `npm run start:dev` to start your server in development mode.
+6. In your browser or Postman, navigate to `localhost:5000/products`. If your server is running properly, you should get back the following json response:
 
 ```json
 {
