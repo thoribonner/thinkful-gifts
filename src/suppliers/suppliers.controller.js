@@ -37,7 +37,8 @@ function hasOnlyValidProperties(req, res, next) {
 // * verify required fields present
 const hasRequiredProperties = hasProperties("supplier_name", "supplier_email");
 
-// * verify supplier exists
+// * verify supplier id exists
+// * ensures supplier id not overwritten
 async function supplierExists(req, res, next) {
   const supplier = await suppliersService.read(req.params.supplierId);
   if (supplier) {
@@ -54,7 +55,7 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
-// * update / PUT
+// * update existing supplier
 async function update(req, res) {
   const updatedSupplier = {
     ...req.body.data,
@@ -65,7 +66,6 @@ async function update(req, res) {
 }
 
 async function destroy(req, res) {
-  const { supplier } = res.locals;
   await suppliersService.delete(res.locals.supplier.supplier_id);
   res.sendStatus(204);
 }

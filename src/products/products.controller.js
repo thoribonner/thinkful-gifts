@@ -1,9 +1,9 @@
 const productsService = require("./products.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { addListener } = require("nodemon");
 
 // * validation
 
+// * verify product id exists
 async function productExists(req, res, next) {
   const product = await productsService.read(req.params.productId);
 
@@ -13,6 +13,7 @@ async function productExists(req, res, next) {
   }
   next({ status: 404, message: "Product cannot be found." });
 }
+// * end validation
 
 // * read / GET by id
 function read(req, res) {
